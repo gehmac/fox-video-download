@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "fox_video_download"
+version = "0.1.0"
+description = "Disponibilizar um app para download de videos para fins educacionais"
+authors = ["Geovanni"]
+
+[tool.poetry.dependencies]
+python = "^3.13"
+fastapi = "^0.110.0"
+uvicorn = "^0.29.0"
+yt-dlp = "^2025.6.9"
+
+[tool.poetry.scripts]
+start = "src.commands.start:main"
+
+[[tool.poetry.packages]]
+include = "fox_video_download"
+from = "src"

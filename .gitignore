@@ -1,0 +1,41 @@
+# .gitignore para projeto Python com Poetry
+
+# Ambiente virtual
+.venv/
+env/
+venv/
+
+# Cache do Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Arquivos de log
+*.log
+
+# Configurações do VS Code
+.vscode/
+
+# Arquivos do Poetry
+poetry.lock
+
+# Arquivos do sistema
+.DS_Store
+Thumbs.db
+
+# Testes
+.coverage
+htmlcov/
+.tox/
+.pytest_cache/
+
+# Arquivos temporários
+*.swp
+*.swo
+*.bak
+
+# Distribuição/Build
+dist/
+build/
+*.egg
