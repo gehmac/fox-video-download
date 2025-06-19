@@ -39,3 +39,4 @@ htmlcov/
 dist/
 build/
 *.eggffmpeg.exe
+ffmpeg.exe
