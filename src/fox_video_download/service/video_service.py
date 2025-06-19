@@ -1,16 +1,32 @@
 import yt_dlp
 import os
+import sys
 
-def download_video(url: str) -> dict:
+def get_ffmpeg_path():
+    base = getattr(sys, '_MEIPASS', os.path.abspath("."))
+    ffmpeg_path = os.path.join(base, "ffmpeg.exe")
+    return ffmpeg_path
+
+def download_video(url: str, output_dir: str, progress_callback=None) -> str:
+    os.makedirs(output_dir, exist_ok=True)
+    ffmpeg_path = get_ffmpeg_path()
+    def hook(d):
+        if d['status'] == 'downloading' and progress_callback:
+            total = d.get('total_bytes') or d.get('total_bytes_estimate')
+            downloaded = d.get('downloaded_bytes', 0)
+            if total:
+                percent = int(downloaded / total * 100)
+                progress_callback(percent)
+        elif d['status'] == 'finished' and progress_callback:
+            progress_callback(100)
     ydl_opts = {
-        'format': 'best',  # ou outro formato desejado
-        'outtmpl': 'downloads/%(title)s.%(ext)s',  # Diretório onde o vídeo será salvo
-        'quiet': True,     # Para suprimir a saída do console
+        'format': 'best',
+        'outtmpl': os.path.join(output_dir, '%(title)s.%(ext)s'),
+        'quiet': True,
+        'progress_hooks': [hook],
+        'ffmpeg_location': ffmpeg_path,
     }
-    
-    os.makedirs('downloads', exist_ok=True)  # Cria o diretório se não existir
-    
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         info = ydl.extract_info(url, download=True)
-        file_path = ydl.prepare_filename(info)  
+        file_path = ydl.prepare_filename(info)
     return file_path
