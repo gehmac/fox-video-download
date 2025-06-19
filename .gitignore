@@ -38,4 +38,4 @@ htmlcov/
 # Distribuição/Build
 dist/
 build/
-*.egg
+*.eggffmpeg.exe
