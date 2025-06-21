@@ -3,8 +3,10 @@ import os
 import sys
 
 def get_ffmpeg_path():
-    base = getattr(sys, '_MEIPASS', os.path.abspath("."))
-    ffmpeg_path = os.path.join(base, "ffmpeg.exe")
+    # Busca o ffmpeg.exe na pasta bin do projeto
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    ffmpeg_path = os.path.join(base_dir, '..', 'bin', 'ffmpeg.exe')
+    ffmpeg_path = os.path.abspath(ffmpeg_path)
     return ffmpeg_path
 
 def download_video(url: str, output_dir: str, progress_callback=None) -> str:

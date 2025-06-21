@@ -54,21 +54,18 @@ root = tk.Tk()
 root.title("Fox Video Download")
 root.geometry("600x440")
 
-# Header
 header = tk.Frame(root)
 header.pack(fill=tk.X, pady=5)
 tk.Label(header, text="Fox Video Download", font=("Arial", 16, "bold")).pack(side=tk.LEFT, padx=10)
 baixar_btn = tk.Button(header, text="Baixar", command=baixar_video)
 baixar_btn.pack(side=tk.RIGHT, padx=10)
 
-# Campo URL
 url_frame = tk.Frame(root)
 url_frame.pack(fill=tk.X, padx=10, pady=5)
 tk.Label(url_frame, text="URL do vídeo:").pack(side=tk.LEFT)
 url_entry = tk.Entry(url_frame, width=50)
 url_entry.pack(side=tk.LEFT, padx=5)
 
-# Campo pasta destino
 pasta_frame = tk.Frame(root)
 pasta_frame.pack(fill=tk.X, padx=10, pady=5)
 tk.Label(pasta_frame, text="Pasta destino:").pack(side=tk.LEFT)
@@ -78,20 +75,16 @@ pasta_entry.pack(side=tk.LEFT, padx=5)
 pasta_btn = tk.Button(pasta_frame, text="Escolher...", command=escolher_pasta)
 pasta_btn.pack(side=tk.LEFT)
 
-# Barra de progresso
 progresso_bar = ttk.Progressbar(root, orient="horizontal", length=580, mode="determinate", maximum=100)
 progresso_bar.pack(padx=10, pady=10)
 
-# Lista de arquivos baixados
 arquivos_frame = tk.LabelFrame(root, text="Arquivos baixados")
 arquivos_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
 lista_arquivos = tk.Listbox(arquivos_frame)
 lista_arquivos.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
 
-# Inicializa lista
 atualizar_lista_arquivos()
 
-# Checa clipboard ao abrir
 root.after(500, checar_clipboard)
 
 root.mainloop()
