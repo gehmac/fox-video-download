@@ -1,7 +1,7 @@
 # 🦊 Fox Video Download
 
-**Fox Video Download** é um aplicativo com interface gráfica (Tkinter) para baixar vídeos de diversas plataformas, utilizando a biblioteca [yt-dlp](https://github.com/yt-dlp/yt-dlp).  
-O app foi criado para facilitar o download de vídeos para fins **educacionais**.
+**Fox Video Download** é um app simples e fácil de usar que permite baixar vídeos de vários sites.  
+Ele foi feito para ajudar no acesso a conteúdos educacionais, de forma prática e rápida.
 
 ## 🪟 Download para Windows
 
