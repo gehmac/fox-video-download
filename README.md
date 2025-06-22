@@ -1,7 +1,7 @@
 # 🦊 Fox Video Download
 
 **Fox Video Download** é um app simples e fácil de usar que permite baixar vídeos de vários sites.  
-Ele foi feito para ajudar no acesso a conteúdos educacionais, de forma prática e rápida.
+Ele foi criado para fins educacionais — use com responsabilidade e por sua própria conta e risco.
 
 ## 🪟 Download para Windows
 
