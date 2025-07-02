@@ -44,3 +44,8 @@ build/
 ffmpeg.exe
 src/fox_video_download/bin/ffmpeg.exe
 fox_video_download_1_0/
+
+# Certificados digitais
+*.pfx
+*.key
+*.crt

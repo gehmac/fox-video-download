@@ -3,7 +3,7 @@ import os
 import sys
 
 def get_ffmpeg_path():
-    # Busca o ffmpeg.exe na pasta bin do projeto
+    # find ffmpeg.exe in the project`s bin folder`
     base_dir = os.path.dirname(os.path.abspath(__file__))
     ffmpeg_path = os.path.join(base_dir, '..', 'bin', 'ffmpeg.exe')
     ffmpeg_path = os.path.abspath(ffmpeg_path)

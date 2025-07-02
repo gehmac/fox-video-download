@@ -4,47 +4,47 @@ from fox_video_download.service.video_service import download_video
 import os
 import threading
 
-def escolher_pasta():
-    pasta = filedialog.askdirectory()
-    if pasta:
-        pasta_var.set(pasta)
-        atualizar_lista_arquivos()
+def choose_folder():
+    folder = filedialog.askdirectory()
+    if folder:
+        folder_var.set(folder)
+        update_file_list()
 
-def atualizar_lista_arquivos():
-    lista_arquivos.delete(0, tk.END)
-    pasta = pasta_var.get()
-    if os.path.isdir(pasta):
-        for f in os.listdir(pasta):
-            lista_arquivos.insert(tk.END, f)
+def update_file_list():
+    file_listbox.delete(0, tk.END)
+    folder = folder_var.get()
+    if os.path.isdir(folder):
+        for f in os.listdir(folder):
+            file_listbox.insert(tk.END, f)
 
-def progresso_callback(percent):
+def progress_callback(percent):
     def set_progress():
-        progresso_bar['value'] = percent
+        progress_bar['value'] = percent
     root.after(0, set_progress)
 
-def baixar_video_thread():
+def download_video_thread():
     url = url_entry.get()
-    pasta = pasta_var.get()
+    folder = folder_var.get()
     try:
-        output_file = download_video(url, pasta, progress_callback=progresso_callback)
-        root.after(0, lambda: messagebox.showinfo("Sucesso", f"Vídeo baixado em:\n{output_file}"))
-        root.after(0, atualizar_lista_arquivos)
+        output_file = download_video(url, folder, progress_callback=progress_callback)
+        root.after(0, lambda: messagebox.showinfo("Success", f"Video downloaded to:\n{output_file}"))
+        root.after(0, update_file_list)
     except Exception as e:
-        root.after(0, lambda: messagebox.showerror("Erro", f"Erro ao baixar vídeo:\n{e}"))
+        root.after(0, lambda: messagebox.showerror("Error", f"Error downloading video:\n{e}"))
     finally:
-        root.after(0, lambda: baixar_btn.config(state=tk.NORMAL))
-        root.after(0, lambda: progresso_bar.config(value=0))
+        root.after(0, lambda: download_btn.config(state=tk.NORMAL))
+        root.after(0, lambda: progress_bar.config(value=0))
 
-def baixar_video():
-    progresso_bar['value'] = 0
-    baixar_btn.config(state=tk.DISABLED)
-    threading.Thread(target=baixar_video_thread, daemon=True).start()
+def download_video_action():
+    progress_bar['value'] = 0
+    download_btn.config(state=tk.DISABLED)
+    threading.Thread(target=download_video_thread, daemon=True).start()
 
-def checar_clipboard():
+def check_clipboard():
     try:
         clipboard = root.clipboard_get()
         if clipboard.startswith("http"):
-            if messagebox.askyesno("Link detectado", f"Detectamos um link na área de transferência:\n{clipboard}\nDeseja baixar?"):
+            if messagebox.askyesno("Link detected", f"Detected a link in the clipboard:\n{clipboard}\nDo you want to download?"):
                 url_entry.delete(0, tk.END)
                 url_entry.insert(0, clipboard)
     except Exception:
@@ -57,34 +57,34 @@ root.geometry("600x440")
 header = tk.Frame(root)
 header.pack(fill=tk.X, pady=5)
 tk.Label(header, text="Fox Video Download", font=("Arial", 16, "bold")).pack(side=tk.LEFT, padx=10)
-baixar_btn = tk.Button(header, text="Baixar", command=baixar_video)
-baixar_btn.pack(side=tk.RIGHT, padx=10)
+download_btn = tk.Button(header, text="Download", command=download_video_action)
+download_btn.pack(side=tk.RIGHT, padx=10)
 
 url_frame = tk.Frame(root)
 url_frame.pack(fill=tk.X, padx=10, pady=5)
-tk.Label(url_frame, text="URL do vídeo:").pack(side=tk.LEFT)
+tk.Label(url_frame, text="Video URL:").pack(side=tk.LEFT)
 url_entry = tk.Entry(url_frame, width=50)
 url_entry.pack(side=tk.LEFT, padx=5)
 
-pasta_frame = tk.Frame(root)
-pasta_frame.pack(fill=tk.X, padx=10, pady=5)
-tk.Label(pasta_frame, text="Pasta destino:").pack(side=tk.LEFT)
-pasta_var = tk.StringVar(value=os.path.expanduser("~/Downloads"))
-pasta_entry = tk.Entry(pasta_frame, textvariable=pasta_var, width=40)
-pasta_entry.pack(side=tk.LEFT, padx=5)
-pasta_btn = tk.Button(pasta_frame, text="Escolher...", command=escolher_pasta)
-pasta_btn.pack(side=tk.LEFT)
+folder_frame = tk.Frame(root)
+folder_frame.pack(fill=tk.X, padx=10, pady=5)
+tk.Label(folder_frame, text="Destination folder:").pack(side=tk.LEFT)
+folder_var = tk.StringVar(value=os.path.expanduser("~/Downloads"))
+folder_entry = tk.Entry(folder_frame, textvariable=folder_var, width=40)
+folder_entry.pack(side=tk.LEFT, padx=5)
+folder_btn = tk.Button(folder_frame, text="Choose...", command=choose_folder)
+folder_btn.pack(side=tk.LEFT)
 
-progresso_bar = ttk.Progressbar(root, orient="horizontal", length=580, mode="determinate", maximum=100)
-progresso_bar.pack(padx=10, pady=10)
+progress_bar = ttk.Progressbar(root, orient="horizontal", length=580, mode="determinate", maximum=100)
+progress_bar.pack(padx=10, pady=10)
 
-arquivos_frame = tk.LabelFrame(root, text="Arquivos baixados")
-arquivos_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
-lista_arquivos = tk.Listbox(arquivos_frame)
-lista_arquivos.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
+files_frame = tk.LabelFrame(root, text="Downloaded files")
+files_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+file_listbox = tk.Listbox(files_frame)
+file_listbox.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
 
-atualizar_lista_arquivos()
+update_file_list()
 
-root.after(500, checar_clipboard)
+root.after(500, check_clipboard)
 
 root.mainloop()
